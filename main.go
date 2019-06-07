@@ -29,6 +29,21 @@ func check(e error) {
 }
 func main() {
 
+	var (
+		flags             Flags
+		status            bool
+		errorLog          []string
+		state, lineNumber byte
+		errLines          []byte
+	)
+
+	// first byte holds the number of cycles
+	// second byte holds the number of successfull attempts
+	// third byte holds the number of flagged events
+	s := make([]int, 4)
+
+	arg := os.Args[1]
+
 	// open our jsonFile
 	jsonFile, err := os.Open("flags.json")
 
@@ -41,14 +56,9 @@ func main() {
 	//read our opened jsonFile as a bytearray
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	//Initialize our Flags array
-	var flags Flags
-
 	// unmarshal our byteArray which contains our json's file content into
 	// flags defined above
 	json.Unmarshal(byteValue, &flags)
-
-	arg := os.Args[1]
 
 	file, err := os.Open(arg)
 
@@ -56,20 +66,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// first byte holds the number of cycles
-	// second byte holds the number of successfull attempts
-	// third byte holds the number of flagged events
-	s := make([]int, 3)
-	//fmt.Println(s)
-
-	var state byte
-	state = 0
-	var status bool
-
-	var errorLog []string
-	//fmt.Println(status)
-
-	//fmt.Println(state)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,6 +74,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+		lineNumber++
 
 		// check for cycle start event
 		if state == 0 && strings.Contains(line, flags.Flags[0].Start) {
@@ -89,6 +86,7 @@ func main() {
 		if state == 1 && strings.Contains(line, flags.Flags[0].FailFlag) {
 			status = true
 			errorLog = append(errorLog, line)
+			errLines = append(errLines, lineNumber)
 
 		}
 		// check for end of line
@@ -116,11 +114,9 @@ func main() {
 	fmt.Println("Flagged lines:")
 	fmt.Println("########################################")
 
-	for _, i := range errorLog {
-		fmt.Println(i)
+	for n, i := range errorLog {
+		fmt.Printf("Line #: %v\n", errLines[n])
+		fmt.Printf(">> %s\n", i)
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
 }
