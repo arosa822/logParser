@@ -1,0 +1,21 @@
+initializing stuff
+some text one
+some more text two
+shutting down some process
+initializing ldskjfldsakfj
+lets not terminate this 
+failure string -> bomb
+down is the secret sauce
+initializing something
+initializing stuff
+sometext two
+some text one
+shutting down some process
+initializing stuff
+sometext one
+shutting down some process
+some text two
+initializing ldskjfldsakfj
+lets not terminate this 
+failure string -> bomb
+down is the secret sauce

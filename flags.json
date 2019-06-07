@@ -1,0 +1,9 @@
+{
+    "flags":[
+        {
+            "start":"initializing",
+            "end":"down",
+            "failFlag":"bomb"
+        }
+    ]
+}
