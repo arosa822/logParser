@@ -112,14 +112,14 @@ func main() {
 
 	}
 
-	fmt.Printf("\nNumber of cycles: %v\n", s[0])
-	fmt.Printf("\nFailed events: %v\n", s[1])
-	fmt.Printf("\nSuccessfull events: %v\n", s[2])
-	fmt.Println("\nFlagged lines>>>")
-
 	for n, i := range errorLog {
 		fmt.Printf("Line: %v\n", errorLines[n])
 		fmt.Printf(">> %s\n", i)
 	}
+
+	fmt.Printf("\nNumber of cycles: %v\n", s[0])
+	fmt.Printf("\nFailed events: %v\n", s[1])
+	fmt.Printf("\nSuccessfull events: %v\n", s[2])
+	fmt.Println("\nFlagged lines>>>")
 
 }
